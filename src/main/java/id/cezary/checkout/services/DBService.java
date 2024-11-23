@@ -4,6 +4,7 @@ import id.cezary.checkout.entities.PriceRule;
 import id.cezary.checkout.entities.Product;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,11 +22,13 @@ public interface DBService {
 
     List<Product> findAllProducts();
 
-    Product findProductById(UUID productId);
+    Optional<Product> findProductById(UUID productId);
 
-    List<Product> findProductByName(String name);
+    Optional<Product> findProductByName(String name);
 
     List<PriceRule> findPriceRulesByProductId(UUID productId);
 
     List<PriceRule> findPriceRulesByProductName(String productName);
+
+    Optional<PriceRule> findPriceRuleByProductNameAndQuantity(String productName, Integer quantity);
 }

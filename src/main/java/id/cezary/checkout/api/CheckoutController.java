@@ -24,8 +24,8 @@ public class CheckoutController {
     }
 
     @GetMapping("/product/{name}")
-    public List<Product> getProduct(@PathVariable String name) {
-        return dbService.findProductByName(name);
+    public Product getProduct(@PathVariable String name) {
+        return dbService.findProductByName(name).get();
     }
 
     @GetMapping("/product/{name}/priceRules")

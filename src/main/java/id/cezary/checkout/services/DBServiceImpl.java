@@ -61,13 +61,12 @@ public class DBServiceImpl implements DBService{
         return new ArrayList<>(productMap.values());
     }
 
-    public Product findProductById(UUID productId) {
-        return productMap.get(productId);
+    public Optional<Product> findProductById(UUID productId) {
+        return Optional.ofNullable(productMap.get(productId));
     }
-    public List<Product> findProductByName(String name) {
+    public Optional<Product> findProductByName(String name) {
         return productMap.values().stream()
-                .filter(product -> product.name().equals(name))
-                .collect(Collectors.toList());
+                .filter(product -> product.name().equals(name)).findFirst();
     }
 
     public List<PriceRule> findPriceRulesByProductId(UUID productId) {
@@ -77,9 +76,19 @@ public class DBServiceImpl implements DBService{
     }
 
     public List<PriceRule> findPriceRulesByProductName(String productName) {
-        List<Product> products = findProductByName(productName);
-        return products.stream()
-                .flatMap(product -> findPriceRulesByProductId(product.id()).stream())
-                .collect(Collectors.toList());
+        Optional<Product> product = findProductByName(productName);
+        if(product.isPresent()){
+            return findPriceRulesByProductId(product.get().id()).stream().collect(Collectors.toList());
+        }
+        else{
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public Optional<PriceRule> findPriceRuleByProductNameAndQuantity(String productName, Integer quantity) {
+        return findPriceRulesByProductName(productName).stream()
+                .filter(priceRule -> quantity >= priceRule.quantity())
+                .findFirst();
     }
 }
