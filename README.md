@@ -40,4 +40,5 @@ http://localhost:8080/product/{name}/priceRules
 #### Key files to understand 
 
 Tests: src/test/java/id/cezary/checkout/services/CartServiceTest.java
+
 Rest Controller: src/main/java/id/cezary/checkout/api/CheckoutController.java
