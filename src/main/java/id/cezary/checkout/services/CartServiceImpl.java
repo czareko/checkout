@@ -69,6 +69,13 @@ public class CartServiceImpl implements CartService{
         Optional<Product> productOpt = dbService.findProductByName(productName);
         if(productOpt.isPresent()){
             Product product = productOpt.get();
+            /*
+            TODO
+            This is very simplified implementation.
+            Product A costs 50, and 3 units of product A cost 130.
+            We should implement logic for handling multiples.
+            The current version will calculate the basic price for cases where the user buys 6, 9, 12, and so on…
+             */
             Optional<PriceRule> priceRuleOpt = dbService
                     .findPriceRuleByProductNameAndQuantity(product.name(), quantity);
 
